@@ -1,7 +1,13 @@
 module Main exposing (..)
 
+import Html exposing (Html)
 import Browser exposing (Document)
-import Html exposing (..)
+import Element exposing (..)
+import Element.Background as Background
+import Element.Font as Font
+import Element.Input
+import Element.Lazy
+
 
 
 
@@ -15,6 +21,12 @@ main =
     , update = update
     , subscriptions = subscriptions
     }
+
+
+type alias Document msg =
+  { title : String
+  , body : List (Html.Html msg)
+  }
 
 
 
@@ -35,7 +47,9 @@ init _ =
 -- UPDATE
 
 
-type Msg = Msg ()
+type Msg
+  = Msg ()
+  | DoSomething
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -59,10 +73,28 @@ view : Model -> Document Msg
 view model = 
   { title = "Oude Delft 119"
   , body = 
-    [ h1 [] [ text "Het is een huis!" ]
-    ]
-  }
+      [ Element.layout
+          [ Background.color (rgba 0 0 0 1)
+          , Font.color (rgba 1 1 1 1)
+          , Font.italic
+          , Font.size 32
+          , Font.family
+              [ Font.external
+                  { url = "https://fonts.googleapis.com/css?family=EB+Garamond"
+                  , name = "EB Garamond"
+                  }
+              , Font.sansSerif
+              ]
+          ]
+      <|
+          el
+              [ centerX, centerY ]
+              (text "Het is een huis!")
+      ]
+    }
 
 
 
 -- HTTP
+
+
